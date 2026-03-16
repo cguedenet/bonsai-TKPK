@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verdant — Bonsai Trees for Every Home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --color-bg: #f7f4ef;
+  --color-bg-warm: #eee9df;
+  --color-text: #2c2a25;
+  --color-text-light: #6b6560;
+  --color-accent: #4a6741;
+  --color-accent-hover: #3b5334;
+  --color-accent-light: #e8efe6;
+  --color-border: #d9d3c7;
+  --color-white: #ffffff;
+  --color-badge-new: #4a6741;
+  --color-badge-sold: #8b7d6b;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, sans-serif;
+  --max-width: 1280px;
+  --nav-height: 64px;
+  --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+button { border: none; background: none; cursor: pointer; font-family: inherit; }
+ul { list-style: none; }
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  transition: box-shadow var(--transition);
+}
+.header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+.header-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--nav-height);
+}
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--color-accent);
+}
+.logo span { font-style: italic; font-weight: 300; }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.nav-links a {
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-light);
+  position: relative;
+  padding: 4px 0;
+  transition: color var(--transition);
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: var(--color-accent);
+  transition: width var(--transition);
+}
+.nav-links a:hover { color: var(--color-accent); }
+.nav-links a:hover::after { width: 100%; }
+.nav-item { position: relative; }
+.nav-dropdown {
+  position: absolute;
+  top: calc(100% + 18px);
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 20px 24px;
+  min-width: 200px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+}
+.nav-item:hover .nav-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+.nav-dropdown a {
+  display: block;
+  font-size: 0.82rem;
+  padding: 6px 0;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--color-text);
+}
+.nav-dropdown a:hover { color: var(--color-accent); }
+.nav-dropdown a::after { display: none; }
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.nav-icons button {
+  color: var(--color-text-light);
+  transition: color var(--transition);
+}
+.nav-icons button:hover { color: var(--color-accent); }
+.cart-btn {
+  position: relative;
+  font-size: 0.82rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cart-count {
+  background: var(--color-accent);
+  color: white;
+  font-size: 0.65rem;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+.mobile-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 4px;
+}
+.mobile-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--color-text);
+}
+
+.hero {
+  position: relative;
+  height: 500px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #3a5a30 0%, #5c7a52 40%, #8ba882 100%);
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 40px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.hero-tag {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-weight: 300;
+  color: white;
+  line-height: 1.15;
+  max-width: 560px;
+  margin-bottom: 12px;
+}
+.hero h1 em { font-weight: 400; }
+.hero-sub {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 32px;
+  max-width: 420px;
+  font-weight: 300;
+}
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-white);
+  color: var(--color-accent);
+  padding: 14px 32px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  transition: all var(--transition);
+  width: fit-content;
+}
+.hero-btn:hover {
+  background: var(--color-text);
+  color: white;
+  transform: translateY(-1px);
+}
+.hero-btn svg { transition: transform var(--transition); }
+.hero-btn:hover svg { transform: translateX(3px); }
+.hero-deco {
+  position: absolute;
+  right: 8%;
+  bottom: -20px;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.hero-deco::before {
+  content: '';
+  position: absolute;
+  right: -60px;
+  top: -60px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.features {
+  background: var(--color-accent-light);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+.features-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 44px 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  text-align: center;
+}
+.feature-item svg {
+  margin: 0 auto 12px;
+  color: var(--color-accent);
+}
+.feature-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.feature-desc {
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+  font-weight: 300;
+}
+
+.section {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 80px 40px;
+}
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 400;
+}
+.section-link {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: gap var(--transition);
+}
+.section-link:hover { gap: 10px; }
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.tab {
+  padding: 8px 20px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: 100px;
+  border: 1.5px solid var(--color-border);
+  color: var(--color-text-light);
+  background: transparent;
+  transition: all var(--transition);
+}
+.tab:hover, .tab.active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: white;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.product-card {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--color-white);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+}
+.product-img {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+.img-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  transition: opacity 0.5s ease;
+}
+.img-placeholder.hover { opacity: 0; }
+.product-card:hover .img-placeholder.primary { opacity: 0; }
+.product-card:hover .img-placeholder.hover { opacity: 1; }
+.product-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 10px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  color: white;
+  z-index: 2;
+}
+.badge-new { background: var(--color-badge-new); }
+.badge-sold { background: var(--color-badge-sold); }
+.product-actions {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all var(--transition);
+  z-index: 2;
+}
+.product-card:hover .product-actions {
+  opacity: 1;
+  transform: translateY(0);
+}
+.add-to-cart-btn {
+  width: 100%;
+  padding: 11px;
+  background: var(--color-accent);
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  transition: background var(--transition);
+}
+.add-to-cart-btn:hover { background: var(--color-accent-hover); }
+.add-to-cart-btn.sold-out {
+  background: var(--color-badge-sold);
+  cursor: not-allowed;
+}
+.product-info { padding: 16px; }
+.product-name {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+.product-price {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  font-weight: 400;
+}
+
+.footer {
+  background: var(--color-bg-warm);
+  border-top: 1px solid var(--color-border);
+  padding: 48px 40px 28px;
+}
+.footer-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 40px;
+}
+.footer-brand .logo { margin-bottom: 12px; }
+.footer-brand p {
+  font-size: 0.82rem;
+  color: var(--color-text-light);
+  line-height: 1.7;
+  font-weight: 300;
+  max-width: 300px;
+}
+.footer-col h4 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+.footer-col a {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--color-text-light);
+  padding: 4px 0;
+  transition: color var(--transition);
+}
+.footer-col a:hover { color: var(--color-accent); }
+.footer-bottom {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--color-text-light);
+}
+.social-links { display: flex; gap: 16px; }
+.social-links a {
+  color: var(--color-text-light);
+  transition: color var(--transition);
+}
+.social-links a:hover { color: var(--color-accent); }
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 1024px) {
+  .product-grid { grid-template-columns: repeat(3, 1fr); }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .mobile-toggle { display: flex; }
+  .header-inner { padding: 0 20px; }
+  .section { padding: 48px 20px; }
+  .product-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .hero { height: 380px; }
+  .hero-content { padding: 0 20px; }
+  .hero h1 { font-size: 2rem; }
+  .hero-deco { display: none; }
+  .features-inner { padding: 32px 20px; grid-template-columns: 1fr; gap: 24px; }
+  .footer { padding: 36px 20px 20px; }
+  .footer-inner { gap: 32px; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+}
+@media (max-width: 480px) {
+  .product-grid { gap: 10px; }
+  .product-info { padding: 10px; }
+  .product-name { font-size: 0.88rem; }
+  .tab { padding: 6px 14px; font-size: 0.7rem; }
+}
+</style>
+</head>
+<body>
+
+<header class="header" id="header">
+  <div class="header-inner">
+    <a href="#" class="logo">Verdant<span>&nbsp;Bonsai</span></a>
+    <nav class="nav-links">
+      <div class="nav-item">
+        <a href="#shop">Shop</a>
+        <div class="nav-dropdown">
+          <a href="#">All Trees</a>
+          <a href="#">Starter Trees</a>
+          <a href="#">Potted Trees</a>
+          <a href="#">Field Grown Stock</a>
+          <a href="#">Limited Release</a>
+        </div>
+      </div>
+      <a href="#">Care Guides</a>
+      <a href="#about">About</a>
+      <a href="#">FAQ</a>
+      <a href="#">Contact</a>
+    </nav>
+    <div class="nav-icons">
+      <button aria-label="Search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <button class="cart-btn" aria-label="Cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-count">0</span>
+      </button>
+      <button class="mobile-toggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Handcrafted with care</div>
+    <h1>Bonsai Trees <em>for Every Home</em></h1>
+    <p class="hero-sub">Live bonsai trees shipped nationwide. Beginner-friendly care, expertly shaped by hand.</p>
+    <a href="#shop" class="hero-btn">
+      Shop Trees
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+  <div class="hero-deco"></div>
+</section>
+
+<div class="features">
+  <div class="features-inner">
+    <div class="feature-item fade-up">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <div class="feature-title">Expert Crafted</div>
+      <div class="feature-desc">Each tree shaped by our in-house bonsai artist</div>
+    </div>
+    <div class="feature-item fade-up" style="transition-delay:0.1s">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      <div class="feature-title">Ships Nationwide</div>
+      <div class="feature-desc">Carefully packaged for safe delivery to your door</div>
+    </div>
+    <div class="feature-item fade-up" style="transition-delay:0.2s">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      <div class="feature-title">Beginner Friendly</div>
+      <div class="feature-desc">Care guide included with every tree</div>
+    </div>
+  </div>
+</div>
+
+<section class="section" id="shop">
+  <div class="section-header fade-up">
+    <h2 class="section-title">Shop Bonsai Trees</h2>
+    <a href="#" class="section-link">
+      View All
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+  <div class="tabs fade-up">
+    <button class="tab active" data-filter="all" onclick="filterTrees(this)">All Trees</button>
+    <button class="tab" data-filter="starter" onclick="filterTrees(this)">Starters</button>
+    <button class="tab" data-filter="potted" onclick="filterTrees(this)">Potted Trees</button>
+    <button class="tab" data-filter="limited" onclick="filterTrees(this)">Limited Release</button>
+    <button class="tab" data-filter="field" onclick="filterTrees(this)">Field Grown</button>
+  </div>
+  <div class="product-grid" id="productGrid"></div>
+</section>
+
+<footer class="footer" id="about">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">Verdant<span>&nbsp;Bonsai</span></div>
+      <p>Modern mini-bonsai that anyone can easily care for and enjoy. Each tree is handcrafted in Northern California by our in-house bonsai artist.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <a href="#">All Trees</a>
+      <a href="#">Starters</a>
+      <a href="#">Potted Trees</a>
+      <a href="#">Limited Release</a>
+      <a href="#">Field Grown Stock</a>
+    </div>
+    <div class="footer-col">
+      <h4>Info</h4>
+      <a href="#">About Us</a>
+      <a href="#">Care Guides</a>
+      <a href="#">FAQ</a>
+      <a href="#">Contact</a>
+      <a href="#">Shipping Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 Verdant Bonsai. All rights reserved.</span>
+    <div class="social-links">
+      <a href="#" aria-label="Instagram">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+      <a href="#" aria-label="Facebook">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const trees = [
+  { name: 'Kishu Juniper Bonsai #712', price: 95, badge: '', emoji: '🌲', cat: 'limited' },
+  { name: 'European Crabapple Bonsai #756', price: 105, badge: 'new', emoji: '🍎', cat: 'limited' },
+  { name: 'Winter Jasmine Bonsai #687', price: 85, badge: '', emoji: '🌸', cat: 'potted' },
+  { name: 'Canyon Live Oak Starter', price: 29, badge: '', emoji: '🌳', cat: 'starter' },
+  { name: 'Tiger Bark Ficus Starter', price: 25, badge: '', emoji: '🌿', cat: 'starter' },
+  { name: 'Japanese Black Pine #603', price: 175, badge: 'new', emoji: '🌲', cat: 'field' },
+  { name: 'Scots Pine Starter', price: 29, badge: '', emoji: '🎄', cat: 'starter' },
+  { name: 'Sekka Hinoki Cypress Starter', price: 35, badge: '', emoji: '🌴', cat: 'starter' },
+  { name: 'Zelkova Bonsai Starter', price: 29, badge: '', emoji: '🍂', cat: 'starter' },
+  { name: 'Red Maple Bonsai Starter', price: 29, badge: '', emoji: '🍁', cat: 'starter' },
+  { name: 'One-Gallon Juniper #702', price: 115, badge: 'sold', emoji: '🌲', cat: 'limited' },
+  { name: 'Winter Jasmine Bonsai #675', price: 85, badge: '', emoji: '🌸', cat: 'potted' },
+  { name: 'Japanese Black Pine #602', price: 125, badge: '', emoji: '🌲', cat: 'field' },
+  { name: 'Japanese Black Pine #599', price: 145, badge: '', emoji: '🌲', cat: 'field' },
+  { name: 'Winter Jasmine Bonsai #683', price: 85, badge: '', emoji: '🌸', cat: 'potted' },
+  { name: 'One-Gallon Juniper #701', price: 115, badge: '', emoji: '🌲', cat: 'limited' },
+];
+
+const hueMap = {
+  '🌲': [120,145], '🍎': [10,25], '🌸': [330,345], '🌳': [100,125],
+  '🌿': [140,160], '🎄': [135,155], '🌴': [95,115], '🍂': [35,50], '🍁': [15,35],
+};
+
+function createCard(item, i) {
+  const [h1, h2] = hueMap[item.emoji] || [120, 145];
+  let badgeHTML = '';
+  if (item.badge === 'new') badgeHTML = '<span class="product-badge badge-new">New</span>';
+  if (item.badge === 'sold') badgeHTML = '<span class="product-badge badge-sold">Sold Out</span>';
+  const btnClass = item.badge === 'sold' ? 'add-to-cart-btn sold-out' : 'add-to-cart-btn';
+  const btnText = item.badge === 'sold' ? 'Sold Out' : 'Add to Cart';
+  return '<div class="product-card fade-up" style="transition-delay:' + Math.min(i * 0.05, 0.3) + 's">' +
+    '<div class="product-img">' + badgeHTML +
+    '<div class="img-placeholder primary" style="background:linear-gradient(145deg, hsl(' + h1 + ',35%,72%) 0%, hsl(' + h2 + ',40%,62%) 100%)"><span>' + item.emoji + '</span></div>' +
+    '<div class="img-placeholder hover" style="background:linear-gradient(145deg, hsl(' + h1 + ',40%,65%) 0%, hsl(' + h2 + ',45%,55%) 100%)"><span>' + item.emoji + '</span></div>' +
+    '<div class="product-actions"><button class="' + btnClass + '">' + btnText + '</button></div>' +
+    '</div>' +
+    '<div class="product-info"><div class="product-name">' + item.name + '</div>' +
+    '<div class="product-price">$' + item.price.toFixed(2) + ' USD</div></div></div>';
+}
+
+function renderGrid(items) {
+  document.getElementById('productGrid').innerHTML = items.map(createCard).join('');
+  observeFadeUps();
+}
+
+function filterTrees(btn) {
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+  btn.classList.add('active');
+  var filter = btn.dataset.filter;
+  var filtered = filter === 'all' ? trees : trees.filter(function(t) { return t.cat === filter; });
+  renderGrid(filtered);
+}
+
+renderGrid(trees);
+
+window.addEventListener('scroll', function() {
+  document.getElementById('header').classList.toggle('scrolled', window.scrollY > 10);
+});
+
+function observeFadeUps() {
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up:not(.visible)').forEach(function(el) { observer.observe(el); });
+}
+observeFadeUps();
+</script>
+</body>
+</html>
