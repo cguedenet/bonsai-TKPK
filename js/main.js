@@ -1,5 +1,5 @@
 /* ========================================
-   Verdant Bonsai — Shared JavaScript
+   Aubin's Bonsai — Shared JavaScript
    ======================================== */
 
 // Product data
