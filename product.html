@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product — Verdant Bonsai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="header" id="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">Verdant<span>&nbsp;Bonsai</span></a>
+    <nav class="nav-links">
+      <div class="nav-item">
+        <a href="shop.html">Shop</a>
+        <div class="nav-dropdown">
+          <a href="shop.html">All Trees</a>
+          <a href="shop.html?cat=starter">Starter Trees</a>
+          <a href="shop.html?cat=potted">Potted Trees</a>
+          <a href="shop.html?cat=field">Field Grown Stock</a>
+          <a href="shop.html?cat=limited">Limited Release</a>
+        </div>
+      </div>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-icons">
+      <button class="cart-btn" aria-label="Cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-count">0</span>
+      </button>
+      <button class="mobile-toggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-nav">
+  <a href="shop.html">Shop</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+</nav>
+
+<div class="breadcrumb" id="breadcrumb">
+  <a href="index.html">Home</a> <span>/</span> <a href="shop.html">Shop</a> <span>/</span> <span id="breadcrumbName">Product</span>
+</div>
+
+<div class="product-detail" id="productDetail">
+  <!-- Populated by JS -->
+</div>
+
+<section class="section" style="padding-top: 0;">
+  <div class="section-header fade-up">
+    <h2 class="section-title">You May Also Like</h2>
+    <a href="shop.html" class="section-link">
+      View All
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+  <div class="product-grid" id="relatedGrid"></div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">Verdant<span>&nbsp;Bonsai</span></div>
+      <p>Modern mini-bonsai that anyone can easily care for and enjoy. Each tree is handcrafted in Northern California by our in-house bonsai artist.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <a href="shop.html">All Trees</a>
+      <a href="shop.html?cat=starter">Starters</a>
+      <a href="shop.html?cat=potted">Potted Trees</a>
+      <a href="shop.html?cat=limited">Limited Release</a>
+      <a href="shop.html?cat=field">Field Grown Stock</a>
+    </div>
+    <div class="footer-col">
+      <h4>Info</h4>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 Verdant Bonsai. All rights reserved.</span>
+    <div class="social-links">
+      <a href="#" aria-label="Instagram">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+      <a href="#" aria-label="Facebook">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var id = parseInt(params.get('id'), 10);
+  var tree = trees.find(function(t) { return t.id === id; });
+
+  if (!tree) {
+    document.getElementById('productDetail').innerHTML =
+      '<div style="grid-column:1/-1;text-align:center;padding:60px 0;">' +
+      '<h2 style="font-family:var(--font-display);font-size:1.8rem;font-weight:400;margin-bottom:12px;">Tree Not Found</h2>' +
+      '<p style="color:var(--color-text-light);margin-bottom:24px;">This product may no longer be available.</p>' +
+      '<a href="shop.html" class="hero-btn" style="margin:0 auto;">Browse All Trees' +
+      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>';
+    return;
+  }
+
+  // Update page title and breadcrumb
+  document.title = tree.name + ' — Verdant Bonsai';
+  document.getElementById('breadcrumbName').textContent = tree.name;
+
+  var hues = hueMap[tree.emoji] || [120, 145];
+  var h1 = hues[0], h2 = hues[1];
+  var isSold = tree.badge === 'sold';
+  var badgeHTML = '';
+  if (tree.badge === 'new') badgeHTML = '<span class="product-badge badge-new" style="position:static;display:inline-block;margin-bottom:16px;">New</span>';
+  if (tree.badge === 'sold') badgeHTML = '<span class="product-badge badge-sold" style="position:static;display:inline-block;margin-bottom:16px;">Sold Out</span>';
+
+  var btnClass = isSold ? 'product-detail-btn sold-out' : 'product-detail-btn';
+  var btnText = isSold ? 'Sold Out' : 'Add to Cart';
+  var btnAttr = isSold ? '' : ' onclick="addToCart(' + tree.id + ')"';
+
+  document.getElementById('productDetail').innerHTML =
+    '<div class="product-detail-img fade-up" style="background:linear-gradient(145deg, hsl(' + h1 + ',35%,72%) 0%, hsl(' + h2 + ',40%,62%) 100%)">' +
+    '<span>' + tree.emoji + '</span></div>' +
+    '<div class="product-detail-info fade-up" style="transition-delay:0.15s">' +
+    badgeHTML +
+    '<h1>' + tree.name + '</h1>' +
+    '<div class="product-detail-price">$' + tree.price.toFixed(2) + ' USD</div>' +
+    '<div class="product-detail-cat">' + (catLabels[tree.cat] || tree.cat) + '</div>' +
+    '<p class="product-detail-desc">' + tree.desc + '</p>' +
+    '<button class="' + btnClass + '"' + btnAttr + '>' + btnText +
+    (isSold ? '' : ' <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>') +
+    '</button></div>';
+
+  // Related products: same category, excluding current, max 4
+  var related = trees.filter(function(t) { return t.cat === tree.cat && t.id !== tree.id; }).slice(0, 4);
+  if (related.length < 4) {
+    var extras = trees.filter(function(t) { return t.id !== tree.id && t.cat !== tree.cat; });
+    related = related.concat(extras.slice(0, 4 - related.length));
+  }
+  renderGrid('relatedGrid', related);
+})();
+</script>
+</body>
+</html>
